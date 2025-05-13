@@ -6,7 +6,6 @@ import {
   ShoppingBag, 
   Users, 
   Truck, 
-  BellRing,
   CreditCard,
   DollarSign
 } from 'lucide-react';
@@ -33,15 +32,6 @@ interface PurchaseRecord {
   vendor: string;
   paymentType: 'CASH' | 'CREDIT';
   amount: number;
-}
-
-interface LowStockItem {
-  id: string;
-  name: string;
-  image: string;
-  currentStock: number;
-  threshold: number;
-  price: number;
 }
 
 // Sample data

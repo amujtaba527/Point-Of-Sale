@@ -13,7 +13,6 @@ import {
   Menu,
   X,
   Bell,
-  LucideProps,
 } from "lucide-react";
 import clsx from "clsx";
 
