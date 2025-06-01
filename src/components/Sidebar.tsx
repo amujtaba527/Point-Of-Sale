@@ -4,15 +4,15 @@ import React, { ReactNode, useState, useCallback, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
-  LayoutDashboard,
+  Home,
   Package,
   ShoppingCart,
-  ShoppingBag,
+  FileText,
   Users,
-  Truck,
+  Settings,
   Menu,
-  X,
   Bell,
+  X,
 } from "lucide-react";
 import clsx from "clsx";
 
@@ -33,12 +33,15 @@ export default function Sidebar({ children, user }: SidebarProps) {
   const handleSidebarLinkClick = useCallback(() => closeSidebar(), [closeSidebar]);
 
   const sidebarLinks = useMemo(() => [
-    { href: "/", icon: LayoutDashboard, text: "Dashboard" },
-    { href: "/product", icon: Package, text: "Products" },
+    { href: "/", icon: Home, text: "Dashboard" },
     { href: "/sale", icon: ShoppingCart, text: "Sales" },
-    { href: "/purchase", icon: ShoppingBag, text: "Purchases" },
-    { href: "/client", icon: Users, text: "Clients" },
-    { href: "/vendor", icon: Truck, text: "Vendors" },
+    { href: "/purchase", icon: Package, text: "Purchases" },
+    { href: "/product", icon: Package, text: "Products" },
+    { href: "/inventory", icon: Package, text: "Inventory" },
+    { href: "/vendor", icon: Users, text: "Vendors"},
+    { href: "/customers", icon: Users, text: "Customers" },
+    { href: "/reports", icon: FileText, text: "Reports" },
+    { href: "/settings", icon: Settings, text: "Settings" },
   ], []);
 
   const userDisplay = {
