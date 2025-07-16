@@ -1,8 +1,10 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
@@ -21,6 +23,7 @@ export default function LoginPage() {
     e.preventDefault();
     console.log('Logging in with:', formData);
     // Add login logic here
+    router.push('/dashboard');
   };
 
   return (

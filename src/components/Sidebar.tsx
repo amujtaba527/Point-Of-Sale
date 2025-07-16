@@ -11,8 +11,8 @@ import {
   Users,
   Settings,
   Menu,
-  Bell,
   X,
+  LogOut,
 } from "lucide-react";
 import clsx from "clsx";
 
@@ -51,7 +51,7 @@ export default function Sidebar({ children, user }: SidebarProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex text-black">
+    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-100 text-gray-900">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
@@ -74,44 +74,53 @@ export default function Sidebar({ children, user }: SidebarProps) {
         role="navigation"
         aria-label="Sidebar"
         className={clsx(
-          "bg-white w-64 shadow-md z-30 top-0 h-full transition-transform duration-300 fixed left-0 min-h-screen",
-          "md:static md:translate-x-0 md:block",
-          { "-translate-x-full": !sidebarOpen, "translate-x-0": sidebarOpen }
+          "bg-white border-r border-gray-200 flex flex-col py-8 px-4 w-64",
+          "sticky top-0 h-screen z-20", // ensure sticky on desktop
+          sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
+          "fixed md:static inset-y-0 left-0 transition-transform duration-200"
         )}
       >
-        <div className="p-4 border-b">
-          <Link href="/dashboard" className="flex items-center text-xl font-bold text-blue-600">
+        <div className="p-6 border-b flex flex-col items-center">
+          <div className="bg-gradient-to-tr from-blue-600 to-indigo-400 rounded-full p-2 shadow-lg mb-2">
+            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 11c1.656 0 3-1.344 3-3s-1.344-3-3-3-3 1.344-3 3 1.344 3 3 3zm0 2c-2.67 0-8 1.337-8 4v2a1 1 0 001 1h14a1 1 0 001-1v-2c0-2.663-5.33-4-8-4z" />
+            </svg>
+          </div>
+          <Link href="/dashboard" className="text-2xl font-extrabold text-gray-800 tracking-tight text-center">
             POS Admin
           </Link>
         </div>
 
-        <nav className="p-4 space-y-1">
+        <nav className="p-4 space-y-2">
           {sidebarLinks.map(({ href, icon: Icon, text }) => {
             const isActive = pathname === href || pathname.startsWith(`${href}/`);
             return (
               <Link
               key={href} href={href} className={clsx( 
-                "flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors",
-                {"bg-blue-100 text-blue-700": isActive,
-                 "text-gray-600 hover:bg-gray-100": !isActive,})}
-                 aria-current={isActive ? "page" : undefined}
-                 onClick={handleSidebarLinkClick}
-              >
-                <Icon size={20} />
-                <span>{text}</span>
-              </Link>
+                "flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-base transition-all duration-150 group",
+                {
+                  "bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-lg": isActive,
+                  "text-gray-700 hover:bg-indigo-50 hover:text-indigo-700": !isActive,
+                }
+              )}
+              aria-current={isActive ? "page" : undefined}
+              onClick={handleSidebarLinkClick}
+            >
+              <span className={clsx("flex items-center justify-center", isActive ? "" : "text-indigo-400 group-hover:text-indigo-600")}> <Icon size={20} /> </span>
+              <span>{text}</span>
+            </Link>
 
             );
           })}
         </nav>
 
-        <div className="absolute bottom-0 border-t w-full p-4">
-          <div className="flex items-center space-x-3">
-            <div className="flex-shrink-0 h-8 w-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-medium">
+        <div className="absolute bottom-0 border-t w-full p-6 bg-white/80 rounded-br-3xl">
+          <div className="flex items-center gap-3">
+            <div className="flex-shrink-0 h-10 w-10 bg-gradient-to-tr from-blue-600 to-indigo-400 rounded-full flex items-center justify-center text-white font-semibold text-lg shadow-md">
               {userDisplay.avatar}
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium">{userDisplay.name}</p>
+              <p className="text-base font-semibold text-gray-800">{userDisplay.name}</p>
               <p className="text-xs text-gray-500">{userDisplay.email}</p>
             </div>
           </div>
@@ -119,11 +128,11 @@ export default function Sidebar({ children, user }: SidebarProps) {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1">
+      <main className="flex-1 overflow-y-auto">
         {/* Topbar */}
-        <header className="bg-white shadow-sm p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-10 md:relative">
+        <header className="bg-white rounded-2xl shadow-lg p-6 mb-6 flex justify-between items-center sticky top-0 z-30">
           <button
-            className="md:hidden text-gray-600"
+            className="md:hidden text-gray-600 hover:text-indigo-700 transition"
             onClick={() => setSidebarOpen(!sidebarOpen)}
             aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
             aria-expanded={sidebarOpen}
@@ -131,16 +140,18 @@ export default function Sidebar({ children, user }: SidebarProps) {
             {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
           <div className="hidden md:block">
-            <h1 className="text-lg font-semibold">POS Admin Dashboard</h1>
+            <h1 className="text-2xl font-extrabold text-indigo-700 tracking-tight">POS Admin Dashboard</h1>
           </div>
           <div className="flex items-center space-x-4">
-            <button
-              className="relative p-1 text-gray-600 hover:text-gray-900"
-              aria-label="View notifications"
-            >
-              <Bell size={20} />
-              <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
+            <Link href="/login">
+              <button
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-indigo-700 font-semibold transition"
+                aria-label="Logout"
+              >
+                <LogOut size={20} />
+              <span className="hidden md:inline">Logout</span>
             </button>
+            </Link>
           </div>
         </header>
 
