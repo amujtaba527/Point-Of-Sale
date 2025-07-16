@@ -33,7 +33,7 @@ export default function Sidebar({ children, user }: SidebarProps) {
   const handleSidebarLinkClick = useCallback(() => closeSidebar(), [closeSidebar]);
 
   const sidebarLinks = useMemo(() => [
-    { href: "/", icon: Home, text: "Dashboard" },
+    { href: "/dashboard", icon: Home, text: "Dashboard" },
     { href: "/sale", icon: ShoppingCart, text: "Sales" },
     { href: "/purchase", icon: Package, text: "Purchases" },
     { href: "/product", icon: Package, text: "Products" },
@@ -80,7 +80,7 @@ export default function Sidebar({ children, user }: SidebarProps) {
         )}
       >
         <div className="p-4 border-b">
-          <Link href="/" className="flex items-center text-xl font-bold text-blue-600">
+          <Link href="/dashboard" className="flex items-center text-xl font-bold text-blue-600">
             POS Admin
           </Link>
         </div>
